@@ -1,13 +1,13 @@
-public class Encrypter {
+public class Decrypter {
 
-    public Encrypter() {
+    public Decrypter() {
     }
 
-    public String encrypt(String input) {
+    public String decrypt(String input) {
         int[] inputIntArray = stringToIntArray(input);
-        inputIntArray = addSevenTooArray(inputIntArray);
-        inputIntArray = swapIndexValue(inputIntArray, 0, 2);
         inputIntArray = swapIndexValue(inputIntArray, 1, 3);
+        inputIntArray = swapIndexValue(inputIntArray, 0, 2);
+        inputIntArray = subtractSevenTooArray(inputIntArray);
         String finalString = intArrayToString(inputIntArray);
         return finalString;
     }
@@ -22,11 +22,15 @@ public class Encrypter {
         return inputIntArray;
     }
 
-    private int[] addSevenTooArray(int[] inputArray) {
+    private int[] subtractSevenTooArray(int[] inputArray) {
         int i, len = inputArray.length;
 
         for(i = 0; i < len; i++){
-            inputArray[i] = (inputArray[i] + 7) % 10;
+            if(inputArray[i] >= 7){
+                inputArray[i] -= 7;
+            } else {
+                inputArray[i] = 10 - Math.abs(inputArray[i] - 7);
+            }
         }
 
         return inputArray;
