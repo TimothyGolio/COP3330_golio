@@ -18,16 +18,19 @@ public class App {
 
         displayBmiStatistics(bmiData);
     }
+
     public static boolean moreInput(){
         boolean answerExists = true;
         Scanner scan = new Scanner(System.in);
 
         while(answerExists) {
-            System.out.println("Greetings! Do you have any values you would like to input? (0 for no, 1 for yes)");
-            int input = Integer.parseInt(scan.nextLine());
-            if (input == 1) {
+            String input;
+            System.out.println("Greetings! Do you have any values you would like to input? (N for no, Y for yes)");
+            input = scan.nextLine();
+
+            if (input.equalsIgnoreCase("Y")) {
                 return true;
-            } else if (input == 0) {
+            } else if (input.equalsIgnoreCase("N")) {
                 return false;
             } else {
                 System.out.println("Sorry, that was not a valid input. Please try again.");
@@ -36,6 +39,59 @@ public class App {
     }
 
     public static double getUserHeight(){
-        Scanner scan
+        boolean validInput = true;
+        Scanner scan = new Scanner(System.in);
+        while(validInput){
+            System.out.println("Please input a height in inches:");
+            double height = Double.parseDouble(scan.nextLine());
+
+            if(height > 0){
+                return height;
+            }
+            else{
+                System.out.println("Sorry, that was not a valid input. Please try again.");
+            }
+        }
+    }
+
+    public static double getUserWeight(){
+        boolean validInput = true;
+        Scanner scan = new Scanner(System.in);
+        while(validInput){
+            System.out.println("Please input a weight in pounds:");
+            double weight = Double.parseDouble(scan.nextLine());
+
+            if(weight > 0){
+                return weight;
+            }
+            else{
+                System.out.println("Sorry, that was not a valid input. Please try again.");
+            }
+        }
+    }
+
+    public static void displayBmiInfo(BodyMassIndex BMI){
+        double bmiValue = BMI.getBodyMassIndex();
+        String bmiCategory = BMI.getBodyMassCategory();
+
+        System.out.println("Your body mass index is: " + bmiValue);
+        System.out.println("Your body mass index's category is : " + bmiCategory);
+    }
+
+    public static void displayBmiStatistics(ArrayList<BodyMassIndex> values){
+        double average = getListAverage(values);
+        System.out.println("The average of the inputted BMIs is : " + average);
+    }
+
+    public static double getListAverage(ArrayList<BodyMassIndex> values){
+        int i, size = values.size();
+        double sum = 0;
+
+        for(i = 0; i < size; i++){
+            BodyMassIndex curBMI = values.get(i);
+            sum = sum + curBMI.getBodyMassIndex()
+        }
+
+        return sum / size;
     }
 }
