@@ -19,7 +19,8 @@ public class App {
         displayBmiStatistics(bmiData);
     }
 
-    public static boolean moreInput(){
+    // Prompts the user for whether they have more input to enter
+    public static boolean moreInput() {
         boolean answerExists = true;
         Scanner scan = new Scanner(System.in);
 
@@ -30,9 +31,11 @@ public class App {
 
             if (input.equalsIgnoreCase("Y")) {
                 return true;
-            } else if (input.equalsIgnoreCase("N")) {
+            }
+            else if (input.equalsIgnoreCase("N")) {
                 return false;
-            } else {
+            }
+            else {
                 System.out.println("Sorry, that was not a valid input. Please try again.");
             }
         }
@@ -40,25 +43,27 @@ public class App {
         return false;
     }
 
-    public static double getUserHeight(){
+    // Prompts the user for their height
+    public static double getUserHeight() {
         boolean validInput = true;
         Scanner scan = new Scanner(System.in);
-        while(validInput){
+
+        while(validInput) {
             System.out.println("Please input a height in inches:");
             double height;
 
-            try{
+            try {
                 height = Double.parseDouble(scan.nextLine());
             }
-            catch (NumberFormatException e){
+            catch (NumberFormatException e) {
                 System.out.println("Sorry, that was not a valid input. Please try again.");
                 continue;
             }
 
-            if(height > 0){
+            if(height > 0) {
                 return height;
             }
-            else{
+            else {
                 System.out.println("Sorry, that was not a valid input. Please try again.");
             }
         }
@@ -66,25 +71,28 @@ public class App {
         return -1;
     }
 
-    public static double getUserWeight(){
+    // Prompts the user for their weight
+    public static double getUserWeight() {
         boolean validInput = true;
         Scanner scan = new Scanner(System.in);
-        while(validInput){
+
+        while(validInput) {
+
             System.out.println("Please input a weight in pounds:");
             double weight;
 
-            try{
+            try {
                 weight = Double.parseDouble(scan.nextLine());
             }
-            catch (NumberFormatException e){
+            catch (NumberFormatException e) {
                 System.out.println("Sorry, that was not a valid input. Please try again.");
                 continue;
             }
 
-            if(weight > 0){
+            if(weight > 0) {
                 return weight;
             }
-            else{
+            else {
                 System.out.println("Sorry, that was not a valid input. Please try again.");
             }
         }
@@ -92,7 +100,8 @@ public class App {
         return -1;
     }
 
-    public static void displayBmiInfo(BodyMassIndex BMI){
+    // Displays the current BMI
+    public static void displayBmiInfo(BodyMassIndex BMI) {
         double bmiValue = BMI.getBodyMassIndex();
         String bmiCategory = BMI.getBodyMassCategory();
 
@@ -100,22 +109,23 @@ public class App {
         System.out.println("Your body mass index's category is : " + bmiCategory);
     }
 
-    public static void displayBmiStatistics(ArrayList<BodyMassIndex> values){
-
-        if(values.size() == 0){
+    // Displays the average of the inputted BMIs
+    public static void displayBmiStatistics(ArrayList<BodyMassIndex> values) {
+        if(values.size() == 0) {
             System.out.println("No values were inputted. Thank you for using this program.");
         }
-        else{
+        else {
             double average = getListAverage(values);
             System.out.println("The average of the inputted BMIs is : " + average);
         }
     }
 
-    public static double getListAverage(ArrayList<BodyMassIndex> values){
+    // Takes the average of a BMI array list
+    public static double getListAverage(ArrayList<BodyMassIndex> values) {
         int i, size = values.size();
         double sum = 0;
 
-        for(i = 0; i < size; i++){
+        for(i = 0; i < size; i++) {
             BodyMassIndex curBMI = values.get(i);
             sum = sum + curBMI.getBodyMassIndex();
         }
