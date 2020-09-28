@@ -36,6 +36,8 @@ public class App {
                 System.out.println("Sorry, that was not a valid input. Please try again.");
             }
         }
+
+        return false;
     }
 
     public static double getUserHeight(){
@@ -43,7 +45,15 @@ public class App {
         Scanner scan = new Scanner(System.in);
         while(validInput){
             System.out.println("Please input a height in inches:");
-            double height = Double.parseDouble(scan.nextLine());
+            double height;
+
+            try{
+                height = Double.parseDouble(scan.nextLine());
+            }
+            catch (NumberFormatException e){
+                System.out.println("Sorry, that was not a valid input. Please try again.");
+                continue;
+            }
 
             if(height > 0){
                 return height;
@@ -52,6 +62,8 @@ public class App {
                 System.out.println("Sorry, that was not a valid input. Please try again.");
             }
         }
+
+        return -1;
     }
 
     public static double getUserWeight(){
@@ -59,7 +71,15 @@ public class App {
         Scanner scan = new Scanner(System.in);
         while(validInput){
             System.out.println("Please input a weight in pounds:");
-            double weight = Double.parseDouble(scan.nextLine());
+            double weight;
+
+            try{
+                weight = Double.parseDouble(scan.nextLine());
+            }
+            catch (NumberFormatException e){
+                System.out.println("Sorry, that was not a valid input. Please try again.");
+                continue;
+            }
 
             if(weight > 0){
                 return weight;
@@ -68,6 +88,8 @@ public class App {
                 System.out.println("Sorry, that was not a valid input. Please try again.");
             }
         }
+
+        return -1;
     }
 
     public static void displayBmiInfo(BodyMassIndex BMI){
@@ -79,8 +101,14 @@ public class App {
     }
 
     public static void displayBmiStatistics(ArrayList<BodyMassIndex> values){
-        double average = getListAverage(values);
-        System.out.println("The average of the inputted BMIs is : " + average);
+
+        if(values.size() == 0){
+            System.out.println("No values were inputted. Thank you for using this program.");
+        }
+        else{
+            double average = getListAverage(values);
+            System.out.println("The average of the inputted BMIs is : " + average);
+        }
     }
 
     public static double getListAverage(ArrayList<BodyMassIndex> values){
@@ -89,7 +117,7 @@ public class App {
 
         for(i = 0; i < size; i++){
             BodyMassIndex curBMI = values.get(i);
-            sum = sum + curBMI.getBodyMassIndex()
+            sum = sum + curBMI.getBodyMassIndex();
         }
 
         return sum / size;
