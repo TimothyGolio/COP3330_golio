@@ -7,7 +7,7 @@ public class Main
         Encrypter enc = new Encrypter();
         Decrypter dec = new Decrypter();
 
-        String encrypted = enc.encrypt("1234");
+        String encrypted = enc.encrypt("0013");
 
         System.out.println(encrypted);
 
