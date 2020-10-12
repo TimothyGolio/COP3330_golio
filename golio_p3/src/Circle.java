@@ -1,8 +1,7 @@
 public class Circle extends Shape2D{
-    private int radius;
 
-    public Circle(double radius){
-        super(radius);
+    public Circle(double param){
+        super(param);
     }
 
     @Override
@@ -12,6 +11,6 @@ public class Circle extends Shape2D{
 
     @Override
     public double getArea(){
-        return 2.0 * Math.PI * radius;
+        return Math.PI * parameter1 * parameter1;
     }
 }

@@ -1,7 +1,7 @@
 abstract class Shape2D extends Shape {
 
-    public Shape2D(double parameter) {
-        super(parameter);
+    public Shape2D(double param) {
+        super(param);
     }
 
     public Shape2D(double parameter, double parameter2) {

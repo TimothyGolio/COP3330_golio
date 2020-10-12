@@ -1,7 +1,7 @@
 abstract class Shape {
-    private double parameter1;
-    private double parameter2;
-    private double parameter3;
+    protected double parameter1;
+    protected double parameter2;
+    protected double parameter3;
     private int intparam1;
     private int intparam2;
     private int intparam3;
