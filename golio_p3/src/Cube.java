@@ -1,6 +1,6 @@
 public class Cube extends Shape3D{
 
-    public Cube(double param){
+    public Cube(double param) {
         super(param);
     }
 

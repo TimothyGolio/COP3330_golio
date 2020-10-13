@@ -1,7 +1,7 @@
 import java.lang.reflect.Array;
 
 public class Main {
-    public static void main(String args[]){
+    public static void main(String args[]) {
 
         Shape square1 = new Square(13);
         Shape triangle1 = new Triangle(12, 13);

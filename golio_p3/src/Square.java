@@ -1,16 +1,16 @@
-public class Square extends Shape2D{
+public class Square extends Shape2D {
 
     public Square(double param) {
         super(param);
     }
 
     @Override
-    public String getName(){
+    public String getName() {
         return "square";
     }
 
     @Override
-    public double getArea(){
+    public double getArea() {
         return parameter1 * parameter1;
     }
 }

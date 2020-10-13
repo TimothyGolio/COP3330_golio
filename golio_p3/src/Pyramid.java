@@ -1,6 +1,6 @@
 public class Pyramid extends Shape3D{
 
-    public Pyramid(double param1, double param2, double param3){
+    public Pyramid(double param1, double param2, double param3) {
         super(param1, param2, param3);
     }
 
@@ -15,7 +15,7 @@ public class Pyramid extends Shape3D{
     }
 
     @Override
-    public double getVolume(){
+    public double getVolume() {
         return (parameter1 * parameter2 * parameter3)/3.0;
     }
 }
