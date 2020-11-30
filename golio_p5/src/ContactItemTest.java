@@ -3,9 +3,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ContactItemTest {
 
+    // Required Tests
+
     @Test
     public void creationFailsWithAllBlankValues() {
-        assertThrows(IllegalArgumentException.class, () -> new ContactItem("", "", "", "");
+        assertThrows(IllegalArgumentException.class, () -> new ContactItem("", "", "", ""));
     }
 
     @Test
@@ -100,7 +102,7 @@ class ContactItemTest {
     public void editingSucceedsWithBlankEmail() {
         ContactItem contact = new ContactItem("Margeret", "", "", "");
 
-        contact.setFirstName("Maggie")
+        contact.setFirstName("Maggie");
         assertEquals("Maggie", contact.getFirstName());
         assertEquals("", contact.getLastName());
         assertEquals("", contact.getPhoneNumber());
@@ -123,7 +125,7 @@ class ContactItemTest {
     public void editingSucceedsWithBlankFirstName() {
         ContactItem contact = new ContactItem("", "Poppins", "", "");
 
-        contact.setLastName("Pop")
+        contact.setLastName("Pop");
         assertEquals("", contact.getFirstName());
         assertEquals("Pop", contact.getLastName());
         assertEquals("", contact.getPhoneNumber());
@@ -146,7 +148,7 @@ class ContactItemTest {
     public void editingSucceedsWithBlankLastName() {
         ContactItem contact = new ContactItem("Normal Name", "", "", "");
 
-        contact.setFirstName("X Æ A-12")
+        contact.setFirstName("X Æ A-12");
         assertEquals("X Æ A-12", contact.getFirstName());
         assertEquals("", contact.getLastName());
         assertEquals("", contact.getPhoneNumber());
@@ -169,7 +171,7 @@ class ContactItemTest {
     public void editingSucceedsWithBlankPhone() {
         ContactItem contact = new ContactItem("", "", "", "Emergency@gov.com");
 
-        contact.setEmail("Goverment@gov.gov")
+        contact.setEmail("Goverment@gov.gov");
         assertEquals("", contact.getFirstName());
         assertEquals("", contact.getLastName());
         assertEquals("", contact.getPhoneNumber());
@@ -222,6 +224,86 @@ class ContactItemTest {
         ContactItem contact = new ContactItem("4#$rdagRER", "abcdefghijklmnopqrstuvwxyz1234567890 _", "000-000-0000", "Email@Email.Email");
         String str = contact.toString();
         assertEquals(str, "4#$rdagRER\nabcdefghijklmnopqrstuvwxyz1234567890 _\n000-000-0000\nEmail@Email.Email");
+    }
+
+    // Additional Tests
+
+    @Test
+    public void creationFailsWithInvalidPhoneNumber() {
+        assertThrows(IllegalArgumentException.class, () -> new ContactItem("", "", "911", ""));
+        assertThrows(IllegalArgumentException.class, () -> new ContactItem("", "", "a", ""));
+        assertThrows(IllegalArgumentException.class, () -> new ContactItem("", "", "---", ""));
+        assertThrows(IllegalArgumentException.class, () -> new ContactItem("", "", "000--0000", ""));
+        assertThrows(IllegalArgumentException.class, () -> new ContactItem("", "", "a000-000-0000", ""));
+        assertThrows(IllegalArgumentException.class, () -> new ContactItem("", "", " 000-000-0111", ""));
+        assertThrows(IllegalArgumentException.class, () -> new ContactItem("", "", "ghbreuigbhnaerjigrfdnvb8345t6782345ty__[", ""));
+    }
+
+    @Test
+    public void creationFailsWithInvalidEmail() {
+        assertThrows(IllegalArgumentException.class, () -> new ContactItem("", "", "", "a"));
+        assertThrows(IllegalArgumentException.class, () -> new ContactItem("", "", "", "1"));
+        assertThrows(IllegalArgumentException.class, () -> new ContactItem("", "", "", "@."));
+        assertThrows(IllegalArgumentException.class, () -> new ContactItem("", "", "", " @ . "));
+        assertThrows(IllegalArgumentException.class, () -> new ContactItem("", "", "", "1@3.6"));
+        assertThrows(IllegalArgumentException.class, () -> new ContactItem("", "", "", "Valid Email Address"));
+        assertThrows(IllegalArgumentException.class, () -> new ContactItem("", "", "", "a@@b..c"));
+        assertThrows(IllegalArgumentException.class, () -> new ContactItem("", "", "", "a@b.c."));
+        assertThrows(IllegalArgumentException.class, () -> new ContactItem("", "", "", "@a@b.c."));
+    }
+
+    @Test
+    public void editFailsWithInvalidPhoneNumber() {
+        ContactItem contact = new ContactItem("_", "", "", "");
+        ContactItem contact2 = new ContactItem("_", "", "000-000-0000", "");
+
+        assertThrows(IllegalArgumentException.class, () -> contact.setPhoneNumber("911"));
+        assertThrows(IllegalArgumentException.class, () -> contact.setPhoneNumber("a"));
+        assertThrows(IllegalArgumentException.class, () -> contact.setPhoneNumber("---"));
+        assertThrows(IllegalArgumentException.class, () -> contact.setPhoneNumber("000--0000"));
+        assertThrows(IllegalArgumentException.class, () -> contact.setPhoneNumber("a000-000-0000"));
+        assertThrows(IllegalArgumentException.class, () -> contact.setPhoneNumber(" 000-000-0111"));
+        assertThrows(IllegalArgumentException.class, () -> contact.setPhoneNumber("ghbreuigbhnaerjigrfdnvb8345t6782345ty__["));
+
+        assertThrows(IllegalArgumentException.class, () -> contact2.setPhoneNumber("911"));
+        assertThrows(IllegalArgumentException.class, () -> contact2.setPhoneNumber("a"));
+        assertThrows(IllegalArgumentException.class, () -> contact2.setPhoneNumber("---"));
+        assertThrows(IllegalArgumentException.class, () -> contact2.setPhoneNumber("000--0000"));
+        assertThrows(IllegalArgumentException.class, () -> contact2.setPhoneNumber("a000-000-0000"));
+        assertThrows(IllegalArgumentException.class, () -> contact2.setPhoneNumber(" 000-000-0111"));
+        assertThrows(IllegalArgumentException.class, () -> contact2.setPhoneNumber("ghbreuigbhnaerjigrfdnvb8345t6782345ty__["));
+
+        assertEquals(contact.getPhoneNumber(), "");
+        assertEquals(contact2.getPhoneNumber(), "000-000-0000");
+    }
+
+    @Test
+    public void editFailsWithInvalidEmail() {
+        ContactItem contact = new ContactItem("_", "", "", "");
+        ContactItem contact2 = new ContactItem("_", "", "", "a@b.c");
+
+        assertThrows(IllegalArgumentException.class, () -> contact.setEmail("a"));
+        assertThrows(IllegalArgumentException.class, () -> contact.setEmail("1"));
+        assertThrows(IllegalArgumentException.class, () -> contact.setEmail("@."));
+        assertThrows(IllegalArgumentException.class, () -> contact.setEmail(" @ . "));
+        assertThrows(IllegalArgumentException.class, () -> contact.setEmail("1@3.6"));
+        assertThrows(IllegalArgumentException.class, () -> contact.setEmail("Valid Email Address"));
+        assertThrows(IllegalArgumentException.class, () -> contact.setEmail("a@@b..c"));
+        assertThrows(IllegalArgumentException.class, () -> contact.setEmail("a@b.c."));
+        assertThrows(IllegalArgumentException.class, () -> contact.setEmail("@a@b.c."));
+
+        assertThrows(IllegalArgumentException.class, () -> contact2.setEmail(1, "a"));
+        assertThrows(IllegalArgumentException.class, () -> contact2.setEmail(1, "1"));
+        assertThrows(IllegalArgumentException.class, () -> contact2.setEmail(1, "@."));
+        assertThrows(IllegalArgumentException.class, () -> contact2.setEmail(1, " @ . "));
+        assertThrows(IllegalArgumentException.class, () -> contact2.setEmail(1, "1@3.6"));
+        assertThrows(IllegalArgumentException.class, () -> contact2.setEmail(1, "Valid Email Address"));
+        assertThrows(IllegalArgumentException.class, () -> contact2.setEmail(1, "a@@b..c"));
+        assertThrows(IllegalArgumentException.class, () -> contact2.setEmail(1, "a@b.c."));
+        assertThrows(IllegalArgumentException.class, () -> contact2.setEmail(1, "@a@b.c."));
+
+        assertEquals(contact.getEmail(), "");
+        assertEquals(contact2.getEmail(), "a@b.c");
     }
 
 }

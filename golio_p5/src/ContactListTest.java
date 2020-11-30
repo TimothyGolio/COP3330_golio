@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ContactListTest {
 
+    // Required Tests
+
     @Test
     public void addingItemsIncreasesSize() {
         ContactItem contact = new ContactItem("a", "b", "999-999-0000", "a@b.c");
@@ -22,7 +24,7 @@ class ContactListTest {
         ContactItem contact = new ContactItem("9", "", "", "");
         ContactList list = new ContactList();
         list.add(contact);
-        assertThrows(IllegalArgumentException.class, () -> list.editContactFirstName(0, ""););
+        assertThrows(IllegalArgumentException.class, () -> list.editContactFirstName(0, ""));
         assertEquals(contact.getFirstName(), "9");
     }
 
@@ -32,10 +34,10 @@ class ContactListTest {
         ContactList list = new ContactList();
         list.add(contact);
 
-        assertThrows(IndexOutOfBoundsException.class, () -> list.editContactFirstName(1, "a"););
-        assertThrows(IndexOutOfBoundsException.class, () -> list.editContactLastName(1000000, "a");
-        assertThrows(IndexOutOfBoundsException.class, () -> list.editContactPhoneNumber(-1, "012-345-6789");
-        assertThrows(IndexOutOfBoundsException.class, () -> list.editContactPhoneNumber(-1000000, "w_...@g....wumbo");
+        assertThrows(IndexOutOfBoundsException.class, () -> list.editContactFirstName(1, "a"));
+        assertThrows(IndexOutOfBoundsException.class, () -> list.editContactLastName(1000000, "a"));
+        assertThrows(IndexOutOfBoundsException.class, () -> list.editContactPhoneNumber(-1, "012-345-6789"));
+        assertThrows(IndexOutOfBoundsException.class, () -> list.editContactPhoneNumber(-1000000, "w_...@g....wumbo"));
 
         assertEquals(contact.getFirstName(), "_");
         assertEquals(contact.getLastName(), "");
@@ -154,7 +156,7 @@ class ContactListTest {
     public void newListIsEmpty() {
         ContactList list = new ContactList();
         assertEquals(list.size(), 0);
-        assertThrows(IndexOutOfBoundsException.class, () -> list.editContactFirstName(0, "a");
+        assertThrows(IndexOutOfBoundsException.class, () -> list.editContactFirstName(0, "a"));
     }
 
     @Test
@@ -178,10 +180,10 @@ class ContactListTest {
         ContactList list = new ContactList();
         ContactItem contact = new ContactItem("Mario", "", "800-411-6194", "Mariobros@mushroomkingdom.net");
         list.add(contact);
-        assertThrows(IndexOutOfBoundsException.class, () -> list.editContactFirstName(1, "Luigi");
-        assertThrows(IndexOutOfBoundsException.class, () -> list.editContactLastName(1000000, "Toad");
-        assertThrows(IndexOutOfBoundsException.class, () -> list.editPhoneNumber(-1, "011-235-8132");
-        assertThrows(IndexOutOfBoundsException.class, () -> list.editContactLastName(-1000000, "Nintendo@nintendo.com");
+        assertThrows(IndexOutOfBoundsException.class, () -> list.editContactFirstName(1, "Luigi"));
+        assertThrows(IndexOutOfBoundsException.class, () -> list.editContactLastName(1000000, "Toad"));
+        assertThrows(IndexOutOfBoundsException.class, () -> list.editPhoneNumber(-1, "011-235-8132"));
+        assertThrows(IndexOutOfBoundsException.class, () -> list.editContactLastName(-1000000, "Nintendo@nintendo.com"));
 
         assertEquals(contact.getFirstName(), "Mario");
         assertEquals(contact.getLastName(), "");
@@ -213,5 +215,65 @@ class ContactListTest {
         assertEquals(list.getContactLastName(0), "ergdfrgeadrbed_");
         assertEquals(list.getContactPhoneNumber(0), "111-111-1111");
         assertEquals(list.getContactEmail(0), "l@o.l");
+    }
+
+    // Additional Tests
+
+    @Test
+    public void editToInvalidPhoneNumberFails() {
+        ContactItem contact = new ContactItem("_", "", "", "");
+        ContactItem contact2 = new ContactItem("_", "", "000-000-0000", "");
+        ContactList list = new ContactList();
+        list.add(contact);
+        list.add(contact2);
+        assertThrows(IllegalArgumentException.class, () -> list.editPhoneNumber(0, "911"));
+        assertThrows(IllegalArgumentException.class, () -> list.editPhoneNumber(0, "a"));
+        assertThrows(IllegalArgumentException.class, () -> list.editPhoneNumber(0, "---"));
+        assertThrows(IllegalArgumentException.class, () -> list.editPhoneNumber(0, "000--0000"));
+        assertThrows(IllegalArgumentException.class, () -> list.editPhoneNumber(0, "a000-000-0000"));
+        assertThrows(IllegalArgumentException.class, () -> list.editPhoneNumber(0, " 000-000-0111"));
+        assertThrows(IllegalArgumentException.class, () -> list.editPhoneNumber(0, "ghbreuigbhnaerjigrfdnvb8345t6782345ty__["));
+
+        assertThrows(IllegalArgumentException.class, () -> list.editPhoneNumber(1, "911"));
+        assertThrows(IllegalArgumentException.class, () -> list.editPhoneNumber(1, "a"));
+        assertThrows(IllegalArgumentException.class, () -> list.editPhoneNumber(1, "---"));
+        assertThrows(IllegalArgumentException.class, () -> list.editPhoneNumber(1, "000--0000"));
+        assertThrows(IllegalArgumentException.class, () -> list.editPhoneNumber(1, "a000-000-0000"));
+        assertThrows(IllegalArgumentException.class, () -> list.editPhoneNumber(1, " 000-000-0111"));
+        assertThrows(IllegalArgumentException.class, () -> list.editPhoneNumber(1, "ghbreuigbhnaerjigrfdnvb8345t6782345ty__["));
+
+        assertEquals(contact.getPhoneNumber(), "");
+        assertEquals(contact2.getPhoneNumber(), "000-000-0000");
+    }
+
+    @Test
+    public void editToInvalidEmailFails() {
+        ContactItem contact = new ContactItem("_", "", "", "");
+        ContactItem contact2 = new ContactItem("_", "", "", "a@b.c");
+        ContactList list = new ContactList();
+        list.add(contact);
+        list.add(contact2);
+        assertThrows(IllegalArgumentException.class, () -> list.editEmail(0, "a"));
+        assertThrows(IllegalArgumentException.class, () -> list.editEmail(0, "1"));
+        assertThrows(IllegalArgumentException.class, () -> list.editEmail(0, "@."));
+        assertThrows(IllegalArgumentException.class, () -> list.editEmail(0, " @ . "));
+        assertThrows(IllegalArgumentException.class, () -> list.editEmail(0, "1@3.6"));
+        assertThrows(IllegalArgumentException.class, () -> list.editEmail(0, "Valid Email Address"));
+        assertThrows(IllegalArgumentException.class, () -> list.editEmail(0, "a@@b..c"));
+        assertThrows(IllegalArgumentException.class, () -> list.editEmail(0, "a@b.c."));
+        assertThrows(IllegalArgumentException.class, () -> list.editEmail(0, "@a@b.c."));
+
+        assertThrows(IllegalArgumentException.class, () -> list.editEmail(1, "a"));
+        assertThrows(IllegalArgumentException.class, () -> list.editEmail(1, "1"));
+        assertThrows(IllegalArgumentException.class, () -> list.editEmail(1, "@."));
+        assertThrows(IllegalArgumentException.class, () -> list.editEmail(1, " @ . "));
+        assertThrows(IllegalArgumentException.class, () -> list.editEmail(1, "1@3.6"));
+        assertThrows(IllegalArgumentException.class, () -> list.editEmail(1, "Valid Email Address"));
+        assertThrows(IllegalArgumentException.class, () -> list.editEmail(1, "a@@b..c"));
+        assertThrows(IllegalArgumentException.class, () -> list.editEmail(1, "a@b.c."));
+        assertThrows(IllegalArgumentException.class, () -> list.editEmail(1, "@a@b.c."));
+
+        assertEquals(contact.getEmail(), "");
+        assertEquals(contact2.getEmail(), "a@b.c");
     }
 }

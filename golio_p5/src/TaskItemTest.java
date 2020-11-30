@@ -4,7 +4,75 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TaskItemTest {
 
-    // Old tests.
+    // I decided to keep some of the old tests from project 4.
+    // Some of the old tests are redundant, but I figure that additional testing can't hurt.
+    // New required tests.
+
+    @Test
+    public void constructorFailsWithInvalidDueDate() {
+        assertThrows(IllegalArgumentException.class, () -> new TaskItem("B", "", valueOf("")));
+    }
+
+    @Test
+    public void constructorFailsWithInvalidTitle() {
+        assertThrows(IllegalArgumentException.class, () -> new TaskItem("", "", valueOf("2020-12-25")));
+    }
+
+    @Test
+    public void constructorSucceedsWithValidDueDate() {
+        TaskItem task = new TaskItem("blublublu", "", valueOf("0001-01-01"));
+        assertEquals(valueOf("0001-01-01"), task.getDate());
+    }
+
+    @Test
+    public void constructorSucceedsWithValidTitle() {
+        TaskItem task = new TaskItem("Xx_c00l GUY42_xX", "", valueOf("0001-01-01"));
+        assertEquals("Xx_c00l GUY42_xX", task.getTitle());
+    }
+
+    @Test
+    public void editingDescriptionSucceedsWithExpectedValue() {
+        TaskItem task = new TaskItem("b", "hello world", valueOf("0001-01-01"));
+        task.setDescription("");
+        assertEquals("", task.getDescription());
+    }
+
+    @Test
+    public void editingDueDateFailsWithInvalidDateFormat() {
+        TaskItem task = new TaskItem("c", "", valueOf("2020-12-13"));
+        assertThrows(IllegalArgumentException.class, () -> task.setDate(valueOf("rhgdnmgojkdsfrng")));
+    }
+
+    @Test
+    public void editingDueDateFailsWithInvalidYYYMMDD() {
+        TaskItem task = new TaskItem("e", "", valueOf("2020-12-25"));
+        assertThrows(IllegalArgumentException.class, () -> task.setDate(valueOf("001-01-01")));
+        assertThrows(IllegalArgumentException.class, () -> task.setDate(valueOf("0000-13-33")));
+        assertEquals(task.getDate(), valueOf("2020-12-25"));
+    }
+
+    @Test
+    public void editingDueDateSucceedsWithExpectedValue() {
+        TaskItem task = new TaskItem("d", "", valueOf("9999-12-31"));
+        task.setDate(valueOf("2020-12-25"));
+        assertEquals(valueOf("2020-12-25"), task.getDate());
+    }
+
+    @Test
+    public void editingTitleFailsWithEmptyString() {
+        TaskItem task = new TaskItem("e", "", valueOf("2020-12-25"));
+        assertThrows(IllegalArgumentException.class, () -> task.setTitle(""));
+        assertEquals(task.getTitle(), "e");
+    }
+
+    @Test
+    public void editingTitleSucceedsWithExpectedValue() {
+        TaskItem task = new TaskItem("f", "", valueOf("9999-12-12"));
+        task.setTitle(" ");
+        assertEquals(" ", task.getTitle());
+    }
+
+    // Old required tests. Some may be redundant.
 
     @Test
     public void creatingTaskItemFailsWithInvalidDueDate() {
@@ -52,64 +120,6 @@ class TaskItemTest {
         TaskItem task = new TaskItem("a", "", valueOf("9999-12-31"));
         task.setTitle(" ");
         assertEquals(" ", task.getTitle());
-
-    }
-
-
-
-
-    // New tests.
-
-
-
-
-    @Test
-    public void constructorFailsWithInvalidDueDate() {
-
-    }
-
-    @Test
-    public void constructorFailsWithInvalidTitle() {
-
-    }
-
-    @Test
-    public void constructorSucceedsWithValidDueDate() {
-
-    }
-
-    @Test
-    public void constructorSucceedsWithValidTitle() {
-
-    }
-
-    @Test
-    public void editingDescriptionSucceedsWithExpectedValue() {
-
-    }
-
-    @Test
-    public void editingDueDateFailsWithInvalidDateFormat() {
-
-    }
-
-    @Test
-    public void editingDueDateFailsWithInvalidYYYMMDD() {
-
-    }
-
-    @Test
-    public void editingDueDateSucceedsWithExpectedValue() {
-
-    }
-
-    @Test
-    public void editingTitleFailsWithEmptyString() {
-
-    }
-
-    @Test
-    public void editingTitleSucceedsWithExpectedValue() {
 
     }
 }
