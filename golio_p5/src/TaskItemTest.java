@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TaskItemTest {
 
+    // Old tests.
+
     @Test
     public void creatingTaskItemFailsWithInvalidDueDate() {
         assertThrows(IllegalArgumentException.class, () -> new TaskItem("A", "", valueOf("")));
@@ -50,6 +52,64 @@ class TaskItemTest {
         TaskItem task = new TaskItem("a", "", valueOf("9999-12-31"));
         task.setTitle(" ");
         assertEquals(" ", task.getTitle());
+
+    }
+
+
+
+
+    // New tests.
+
+
+
+
+    @Test
+    public void constructorFailsWithInvalidDueDate() {
+
+    }
+
+    @Test
+    public void constructorFailsWithInvalidTitle() {
+
+    }
+
+    @Test
+    public void constructorSucceedsWithValidDueDate() {
+
+    }
+
+    @Test
+    public void constructorSucceedsWithValidTitle() {
+
+    }
+
+    @Test
+    public void editingDescriptionSucceedsWithExpectedValue() {
+
+    }
+
+    @Test
+    public void editingDueDateFailsWithInvalidDateFormat() {
+
+    }
+
+    @Test
+    public void editingDueDateFailsWithInvalidYYYMMDD() {
+
+    }
+
+    @Test
+    public void editingDueDateSucceedsWithExpectedValue() {
+
+    }
+
+    @Test
+    public void editingTitleFailsWithEmptyString() {
+
+    }
+
+    @Test
+    public void editingTitleSucceedsWithExpectedValue() {
 
     }
 }

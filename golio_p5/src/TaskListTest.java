@@ -6,6 +6,9 @@ import static java.sql.Date.valueOf;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TaskListTest {
+
+    // Old tests.
+
     @Test
     public void addingTaskItemsIncreasesSize(){
         TaskItem task = new TaskItem("a", "b", valueOf("2020-12-13"));
@@ -291,5 +294,131 @@ class TaskListTest {
         assertThrows(IndexOutOfBoundsException.class, () -> list.setIndexCompleted(2, false));
         assertThrows(IndexOutOfBoundsException.class, () -> list.setIndexCompleted(-1, false));
         assertThrows(IllegalArgumentException.class, () -> list.setIndexCompleted(0, false));
+    }
+
+
+
+    // New tests.
+
+
+
+    @Test
+    public void addingItemsIncreasesSize() {
+
+    }
+
+    @Test
+    public void completingTaskItemChangesStatusNew() {
+
+    }
+
+    @Test
+    public void completingTaskItemFailsWithInvalidIndexNew() {
+
+    }
+
+    @Test
+    public void editingItemDescriptionFailsWithInvalidIndex() {
+
+    }
+
+    @Test
+    public void editingItemDescriptionSucceedsWithExpectedValue() {
+
+    }
+
+    @Test
+    public void editingItemDueDateSucceedsWithExpectedValue() {
+
+    }
+
+    @Test
+    public void editingItemTitleFailsWithEmptyString() {
+
+    }
+
+    @Test
+    public void editingItemTitleFailsWithInvalidIndex() {
+
+    }
+
+    @Test
+    public void editingItemTitleSucceedsWithExpectedValue() {
+
+    }
+
+    @Test
+    public void editingTaskItemDueDateFailsWithInvalidDateFormat() {
+
+    }
+
+    @Test
+    public void editingTaskItemDueDateFailsWithInvalidIndexNew() {
+
+    }
+
+    @Test
+    public void editingTaskItemDueDateFailsWithInvalidYYYMMDD() {
+
+    }
+
+    @Test
+    public void gettingItemDescriptionFailsWithInvalidIndex() {
+
+    }
+
+    @Test
+    public void gettingItemDescriptionSucceedsWithValidIndex() {
+
+    }
+
+    @Test
+    public void gettingItemDueDateFailsWithInvalidIndex() {
+
+    }
+
+    @Test
+    public void gettingItemDueDateSucceedsWithValidIndex() {
+
+    }
+
+    @Test
+    public void gettingItemTitleFailsWithInvalidIndex() {
+
+    }
+
+    @Test
+    public void gettingItemTitleSucceedsWithValidIndex() {
+
+    }
+
+    @Test
+    public void newListIsEmpty() {
+
+    }
+
+    @Test
+    public void removingItemsDecreasesSize() {
+
+    }
+
+    @Test
+    public void removingItemsFailsWithInvalidIndex() {
+
+    }
+
+    @Test
+    public void savedTaskListCanBeLoadedNew() {
+
+    }
+
+    @Test
+    public void uncompletingTaskItemChangesStatusNew() {
+
+    }
+
+    @Test
+    public void uncompletingTaskItemFailsWithInvalidIndexNew() {
+
     }
 }
