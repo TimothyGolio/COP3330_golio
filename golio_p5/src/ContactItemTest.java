@@ -55,8 +55,8 @@ class ContactItemTest {
         assertEquals("", contact.getEmail());
 
         ContactItem contact2 = new ContactItem("", "Wunsly", "", "");
-        assertEquals("Wunsly", contact2.getFirstName());
-        assertEquals("", contact2.getLastName());
+        assertEquals("", contact2.getFirstName());
+        assertEquals("Wunsly", contact2.getLastName());
         assertEquals("", contact2.getPhoneNumber());
         assertEquals("", contact2.getEmail());
 
@@ -91,7 +91,7 @@ class ContactItemTest {
 
         ContactItem contact3 = new ContactItem("", "", "954-954-9549", "");
         assertThrows(IllegalArgumentException.class, () -> contact3.setPhoneNumber(""));
-        assertEquals("954954954954", contact3.getPhoneNumber());
+        assertEquals("954-954-9549", contact3.getPhoneNumber());
 
         ContactItem contact4 = new ContactItem("", "", "", "HelloWorld@java.com");
         assertThrows(IllegalArgumentException.class, () -> contact4.setEmail(""));
@@ -223,7 +223,7 @@ class ContactItemTest {
     public void testToString() {
         ContactItem contact = new ContactItem("4#$rdagRER", "abcdefghijklmnopqrstuvwxyz1234567890 _", "000-000-0000", "Email@Email.Email");
         String str = contact.toString();
-        assertEquals(str, "4#$rdagRER\nabcdefghijklmnopqrstuvwxyz1234567890 _\n000-000-0000\nEmail@Email.Email");
+        assertEquals(str, "4#$rdagRER\nabcdefghijklmnopqrstuvwxyz1234567890 _\n000-000-0000\nEmail@Email.Email\n");
     }
 
     // Additional Tests
@@ -292,15 +292,15 @@ class ContactItemTest {
         assertThrows(IllegalArgumentException.class, () -> contact.setEmail("a@b.c."));
         assertThrows(IllegalArgumentException.class, () -> contact.setEmail("@a@b.c."));
 
-        assertThrows(IllegalArgumentException.class, () -> contact2.setEmail(1, "a"));
-        assertThrows(IllegalArgumentException.class, () -> contact2.setEmail(1, "1"));
-        assertThrows(IllegalArgumentException.class, () -> contact2.setEmail(1, "@."));
-        assertThrows(IllegalArgumentException.class, () -> contact2.setEmail(1, " @ . "));
-        assertThrows(IllegalArgumentException.class, () -> contact2.setEmail(1, "1@3.6"));
-        assertThrows(IllegalArgumentException.class, () -> contact2.setEmail(1, "Valid Email Address"));
-        assertThrows(IllegalArgumentException.class, () -> contact2.setEmail(1, "a@@b..c"));
-        assertThrows(IllegalArgumentException.class, () -> contact2.setEmail(1, "a@b.c."));
-        assertThrows(IllegalArgumentException.class, () -> contact2.setEmail(1, "@a@b.c."));
+        assertThrows(IllegalArgumentException.class, () -> contact2.setEmail("a"));
+        assertThrows(IllegalArgumentException.class, () -> contact2.setEmail("1"));
+        assertThrows(IllegalArgumentException.class, () -> contact2.setEmail("@."));
+        assertThrows(IllegalArgumentException.class, () -> contact2.setEmail(" @ . "));
+        assertThrows(IllegalArgumentException.class, () -> contact2.setEmail("1@3.6"));
+        assertThrows(IllegalArgumentException.class, () -> contact2.setEmail("Valid Email Address"));
+        assertThrows(IllegalArgumentException.class, () -> contact2.setEmail("a@@b..c"));
+        assertThrows(IllegalArgumentException.class, () -> contact2.setEmail("a@b.c."));
+        assertThrows(IllegalArgumentException.class, () -> contact2.setEmail("@a@b.c."));
 
         assertEquals(contact.getEmail(), "");
         assertEquals(contact2.getEmail(), "a@b.c");

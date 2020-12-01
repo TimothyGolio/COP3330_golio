@@ -6,14 +6,11 @@ import java.nio.file.Files;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 import static java.sql.Date.valueOf;
 
 public class TaskList {
     private ArrayList<TaskItem> list = new ArrayList<TaskItem>();
 
-    public TaskList() {
-    }
 
     public void addListItem(TaskItem task) {
         list.add(task);
