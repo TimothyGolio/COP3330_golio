@@ -5,7 +5,7 @@ import java.util.Scanner;
 import static java.sql.Date.valueOf;
 
 public class TaskApp {
-    public static void main(String[] args) {
+    public static void mainTaskAppMenu() {
         int mainMenuResponse = 0;
         while(mainMenuResponse != 3) {
             mainMenuResponse = manageMainMenu();
@@ -52,10 +52,7 @@ public class TaskApp {
         TaskList list = new TaskList();
         System.out.println("new task list has been created");
         System.out.println("");
-        int listMenuResponse = 0;
-        while(listMenuResponse != 8) {
-            listMenuResponse = manageListMenu(list);
-        }
+        createListMenu(list);
     }
 
     // Manages the user input from the list menu.
@@ -172,23 +169,28 @@ public class TaskApp {
         int index;
 
         Scanner scan = new Scanner(System.in);
-        while(true) {
-            System.out.print("Which task will you edit? ");
-            try {
-                index = scan.nextInt();
-                task = list.get(index);
-            } catch (IllegalArgumentException e1) {
-                System.out.println("Your input was invalid, must be an integer from 0 to the list size. Please try again.");
-                continue;
-            } catch (IndexOutOfBoundsException e2) {
-                System.out.println("Your input was invalid, must be an integer from 0 to the list size. Please try again.");
-                continue;
+
+        if(list.size() > 0) {
+            while (true) {
+                System.out.print("Which task will you edit? ");
+                try {
+                    index = scan.nextInt();
+                    task = list.get(index);
+                } catch (IllegalArgumentException e1) {
+                    System.out.println("Your input was invalid, must be an integer from 0 to the list size. Please try again.");
+                    continue;
+                } catch (IndexOutOfBoundsException e2) {
+                    System.out.println("Your input was invalid, must be an integer from 0 to the list size. Please try again.");
+                    continue;
+                }
+                break;
             }
-            break;
+            handleEditTitle(list, index);
+            handleEditDescription(list, index);
+            handleEditDate(list, index);
+        } else {
+            System.out.println("Your input was invalid, cannot edit an empty list. Please try again.");
         }
-        handleEditTitle(list, index);
-        handleEditDescription(list, index);
-        handleEditDate(list, index);
     }
 
     // Takes user input on how to edit the date and edits that tasks date value.
@@ -240,18 +242,22 @@ public class TaskApp {
 
     // Takes user input on which task to remove and removes it.
     private static void removeItem(TaskList list) {
-        viewList(list);
-        Scanner scan = new Scanner(System.in);
-        while(true) {
-            System.out.print("Which task will you remove? ");
-            try {
-                int index = scan.nextInt();
-                list.removeListItem(index);
-            } catch(IllegalArgumentException e1) {
-                System.out.println("Your input was invalid, must be integer between 0 and the size of the list - 1. Please try again.");
-                continue;
+        if(list.size() > 0) {
+            viewList(list);
+            Scanner scan = new Scanner(System.in);
+            while (true) {
+                System.out.print("Which task will you remove? ");
+                try {
+                    int index = scan.nextInt();
+                    list.removeListItem(index);
+                } catch (IllegalArgumentException e1) {
+                    System.out.println("Your input was invalid, must be integer between 0 and the size of the list - 1. Please try again.");
+                    continue;
+                }
+                break;
             }
-            break;
+        } else {
+            System.out.println("Your input was invalid, cannot remove from an empty list. Please try again.");
         }
     }
 
@@ -414,7 +420,7 @@ public class TaskApp {
     }
 
     // Prints the main menu.
-    private static void printMainMenu() {
+    public static void printMainMenu() {
         System.out.println("");
         System.out.println("Main Menu");
         System.out.println("---------");

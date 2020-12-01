@@ -91,7 +91,7 @@ public class ContactList {
             throw new IndexOutOfBoundsException("Invalid input. Index is out of bounds. Please try again.");
         }
 
-        contact.setPhoneNumber(newEmail);
+        contact.setEmail(newEmail);
     }
 
     public void saveList(String filename) throws IOException {

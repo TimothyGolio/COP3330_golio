@@ -87,7 +87,7 @@ public class ContactItem {
 
     public static boolean emailIsValid(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+ "[a-zA-Z0-9_+&*-]+)*@" +
-                "(?:[a-zA-Z0-9-]+\\.)+[a-z" + "A-Z]{2,7}$";
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" + "A-Z]{1,7}$";
         Pattern pattern = Pattern.compile(emailRegex);
         if(pattern.matcher(email).matches() || email.equals("")) {
             return true;

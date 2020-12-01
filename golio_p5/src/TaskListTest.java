@@ -534,30 +534,6 @@ class TaskListTest {
         assertEquals(task.getDescription(), list.getTaskDescription(0));
     }
 
-
-    @Test
-    public void savedTaskListCanBeLoaded(){
-        TaskItem task = new TaskItem("a", "ergdfrgeadrbed_   _dfvs788645shfjh", valueOf("2020-12-13"));
-        TaskList list = new TaskList();
-        list.addListItem(task);
-        try {
-            list.saveList("example.txt");
-        } catch (IOException e) {
-        }
-        list.removeListItem(0);
-        assertEquals(list.size(), 0);
-        assertThrows(IndexOutOfBoundsException.class, () -> list.getTaskTitle(0));
-
-        try {
-            list.loadList("example.txt", true);
-        } catch (FileNotFoundException e) {
-        }
-
-        assertEquals(list.getTaskDescription(0), "ergdfrgeadrbed_   _dfvs788645shfjh");
-        assertEquals(list.getTaskDate(0), valueOf("2020-12-13"));
-        assertEquals(list.getTaskTitle(0), "a");
-    }
-
     @Test
     public void uncompletingTaskItemChangesStatus(){
         TaskItem task = new TaskItem("a", "b", valueOf("2020-12-13"));
