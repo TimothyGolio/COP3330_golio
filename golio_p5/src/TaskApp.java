@@ -424,22 +424,26 @@ public class TaskApp {
 
     // Saves the current list to a text file inputted by the user.
     private static void saveCurrentList(TaskList list) {
-        Scanner scan = new Scanner(System.in);
+        if(list.size() > 0) {
+            Scanner scan = new Scanner(System.in);
 
-        while(true) {
-            System.out.print("Enter the file name to save as: ");
+            while (true) {
+                System.out.print("Enter the file name to save as: ");
 
-            try {
-                String filename = scan.nextLine();
-                list.saveList(filename);
-                System.out.println("task list has been saved");
-                break;
+                try {
+                    String filename = scan.nextLine();
+                    list.saveList(filename);
+                    System.out.println("task list has been saved");
+                    break;
 
-            } catch(IOException e) {
-                System.out.println("Your input was invalid, must be valid file name. Please try again.");
-            } catch(Exception e2) {
-                System.out.println("Your input was invalid. Please try again.");
+                } catch (IOException e) {
+                    System.out.println("Your input was invalid, must be valid file name. Please try again.");
+                } catch (Exception e2) {
+                    System.out.println("Your input was invalid. Please try again.");
+                }
             }
+        } else {
+            System.out.println("Your input is invalid, the list being saved must contain at least one task. Please try again");
         }
     }
 

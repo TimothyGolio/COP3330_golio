@@ -305,21 +305,25 @@ public class ContactApp {
 
     // Saves the current list to a text file inputted by the user.
     private static void saveCurrentList(ContactList list) {
-        Scanner scan = new Scanner(System.in);
+        if(list.size() > 0) {
+            Scanner scan = new Scanner(System.in);
 
-        while(true) {
-            System.out.print("Enter the file name to save as: ");
+            while (true) {
+                System.out.print("Enter the file name to save as: ");
 
-            try {
-                String filename = scan.nextLine();
-                list.saveList(filename);
-                System.out.println("task list has been saved");
-                break;
-            } catch(IOException e) {
-                System.out.println("Your input was invalid. Please try again.");
-            } catch(Exception e2) {
-                System.out.println("Your input was invalid. Please try again.");
+                try {
+                    String filename = scan.nextLine();
+                    list.saveList(filename);
+                    System.out.println("task list has been saved");
+                    break;
+                } catch (IOException e) {
+                    System.out.println("Your input was invalid. Please try again.");
+                } catch (Exception e2) {
+                    System.out.println("Your input was invalid. Please try again.");
+                }
             }
+        } else {
+            System.out.println("Your input is invalid, the list being saved must contain at least one contact. Please try again");
         }
     }
 
