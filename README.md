@@ -4,3 +4,4 @@ Timothy Golio's project files for COP 3330.
 - Programming Assignment 2: Body Mass Index Calculator
 - Programming Assignment 3: Shape Creator
 - Programming Assignment 4: Todo list (1 day late so -20% according to syllabus)
+- Programming Assignment 5: Contact list and Task list (runs in MainApp class)
