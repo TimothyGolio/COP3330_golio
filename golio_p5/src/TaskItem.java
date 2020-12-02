@@ -6,7 +6,7 @@ public class TaskItem {
     private Date date;
     private boolean completed = false;
 
-    // Constructor for task item.
+    // Constructor for task item class.
     public TaskItem(String title, String description, Date date) {
 
         if(titleIsValid(title) == true) {
@@ -36,6 +36,7 @@ public class TaskItem {
         return date;
     }
 
+    // Sets the task title to the given string if it is one or more characters.
     public void setTitle(String title) {
 
         if(titleIsValid(title) == true) {
@@ -46,10 +47,12 @@ public class TaskItem {
 
     }
 
+    // Sets the task description to the given string.
     public void setDescription(String description) {
         this.description = description;
     }
 
+    // Sets the task date to the given date if it is in the correct format.
     public void setDate(Date date) {
         try {
             this.date = date;
@@ -58,6 +61,7 @@ public class TaskItem {
         }
     }
 
+    // Checks if a contact title is one or more characters.
     private boolean titleIsValid(String title) {
         int x = title.length();
 
@@ -72,6 +76,7 @@ public class TaskItem {
         return completed;
     }
 
+    // Completes or uncompletes a given task.
     public void setCompleted(boolean completed) {
         this.completed = completed;
     }

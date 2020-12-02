@@ -1,6 +1,7 @@
 import javax.naming.InvalidNameException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ContactApp {
@@ -69,7 +70,7 @@ public class ContactApp {
             } catch (FileNotFoundException e) {
                 System.out.println("There was a problem loading your file. Please try again or type \"Quit\" to return to the main menu.");
             } catch (Exception e2) {
-                System.out.println("There was a problem. Please try again or type \"Quit\" to return to the main menu.");
+                System.out.println("There was a problem, file may not be contact list. Please try again or type \"Quit\" to return to the main menu.");
             }
         }
     }
@@ -173,18 +174,23 @@ public class ContactApp {
             int index;
 
             while (true) {
-                System.out.print("Which contact will you edit? ");
+                System.out.print("Which task will you edit? ");
+
                 try {
                     index = scan.nextInt();
-                } catch (IllegalArgumentException e1) {
-                    System.out.println("Your input was invalid, must be an integer. Please try again.");
-                    continue;
-                } catch (IndexOutOfBoundsException e2) {
-                    System.out.println("Your input was invalid, must be an integer from 0 - " + (list.size() - 1) + ". Please try again.");
-                    continue;
+                    scan.nextLine();
+                    if(index < 0 || index >= list.size()){
+                        throw new IndexOutOfBoundsException("Your input was invalid, must be an integer from 0-" + (list.size() - 1) + ".  Please try again.");
+                    }
+                    break;
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Your input was invalid, must be an integer from 0-" + (list.size() - 1) + ".  Please try again.");
+                } catch (InputMismatchException e2) {
+                    System.out.println("Your input was invalid, must be from 0-" + (list.size() - 1) + ". Please try again.");
+                    scan.nextLine();
+                } catch (Exception e3) {
+                    System.out.println("Your input was invalid, must be from 0-" + (list.size() - 1) + ". Please try again.");
                 }
-
-                break;
             }
 
             while (true) {
@@ -243,7 +249,7 @@ public class ContactApp {
                 list.editContactPhoneNumber(index, scan.nextLine());
                 break;
             } catch(Exception e) {
-                System.out.print("Your input was invalid, must be of format xxx-xxx-xxxx. Please try again.");
+                System.out.println("Your input was invalid, must be of format xxx-xxx-xxxx. Please try again.");
             }
         }
     }
@@ -281,17 +287,19 @@ public class ContactApp {
 
             while (true) {
                 System.out.print("Which contact will you remove? ");
-
                 try {
                     int index = scan.nextInt();
                     list.removeListItem(index);
                     break;
-                } catch (Exception e) {
-                    System.out.println("Your input was invalid, must be integer from 0-" + (list.size() - 1) + ". Please try again.");
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("Your input was invalid, must be an integer from 0-" + (list.size() - 1) + ". Please try again.");
+                } catch (Exception e2) {
+                    System.out.println("Your input was invalid, must be an integer from 0-" + (list.size() - 1) + ". Please try again.");
+                    scan.nextLine();
                 }
             }
         } else {
-            System.out.println("Your input was invalid, cannot edit an empty list. Please try again.");
+            System.out.println("Your input was invalid, cannot remove from an empty list. Please try again.");
         }
     }
 
@@ -309,10 +317,8 @@ public class ContactApp {
                 break;
             } catch(IOException e) {
                 System.out.println("Your input was invalid. Please try again.");
-                continue;
             } catch(Exception e2) {
                 System.out.println("Your input was invalid. Please try again.");
-                continue;
             }
         }
     }

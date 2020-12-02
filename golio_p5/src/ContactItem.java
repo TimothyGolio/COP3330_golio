@@ -6,6 +6,7 @@ public class ContactItem {
     private String phoneNumber;
     private String email;
 
+    // Constructor for contact item class.
     public ContactItem(String firstName, String lastName, String phoneNumber, String email) {
 
         if(firstName.equals("") && lastName.equals("") && phoneNumber.equals("") && email.equals("")) {
@@ -39,6 +40,7 @@ public class ContactItem {
         return email;
     }
 
+    // Sets the contact first name to the given string.
     public void setFirstName(String firstName) {
         if(firstName.equals("") && lastName.equals("") && phoneNumber.equals("") && email.equals("")) {
             throw new IllegalArgumentException("Invalid input. At least one value in the contact must not be blank. Please try again.");
@@ -47,6 +49,7 @@ public class ContactItem {
         }
     }
 
+    // Sets the contact last name to the given string.
     public void setLastName(String lastName) {
         if(lastName.equals("") && firstName.equals("") && phoneNumber.equals("") && email.equals("")) {
             throw new IllegalArgumentException("Invalid input. At least one value in the contact must not be blank. Please try again.");
@@ -55,6 +58,7 @@ public class ContactItem {
         }
     }
 
+    // Sets the contact phone number to the given string.
     public void setPhoneNumber(String phoneNumber) {
         if(phoneNumber.equals("") && firstName.equals("") && lastName.equals("") && email.equals("")) {
             throw new IllegalArgumentException("Invalid input. At least one value in the contact must not be blank. Please try again.");
@@ -65,6 +69,7 @@ public class ContactItem {
         }
     }
 
+    // Sets the contact email to the given string.
     public void setEmail(String email) {
         if(email.equals("") && firstName.equals("") && lastName.equals("") && phoneNumber.equals("")) {
             throw new IllegalArgumentException("Invalid input. At least one value in the contact must not be blank. Please try again.");
@@ -75,6 +80,7 @@ public class ContactItem {
         }
     }
 
+    // Uses a regex to check if the contact phoneNumber is valid.
     public static boolean phoneNumberIsValid(String phoneNumber) {
         String phoneNumberRegex = "(?:\\d{3}-){2}\\d{4}$";
         Pattern pattern = Pattern.compile(phoneNumberRegex);
@@ -86,6 +92,7 @@ public class ContactItem {
         }
     }
 
+    // Uses a regex to check if the contact email is valid.
     public static boolean emailIsValid(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+ "[a-zA-Z0-9_+&*-]+)*@" +
                 "(?:[a-zA-Z0-9-]+\\.)+[a-z" + "A-Z]{1,7}$";

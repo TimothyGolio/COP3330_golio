@@ -1,6 +1,7 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import static java.sql.Date.valueOf;
 
@@ -55,7 +56,7 @@ public class TaskApp {
         TaskList list = new TaskList();
 
         while(true) {
-            System.out.println("Enter the file name to load: ");
+            System.out.print("Enter the file name to load: ");
             try {
                 String filename = scan.nextLine();
 
@@ -70,7 +71,7 @@ public class TaskApp {
             } catch (FileNotFoundException e) {
                 System.out.println("There was a problem loading your file. Please try again or type \"Quit\" to return to the main menu.");
             } catch (Exception e2) {
-                System.out.println("There was a problem. Please try again or type \"Quit\" to return to the main menu.");
+                System.out.println("There was a problem, file may not be a task list. Please try again or type \"Quit\" to return to the main menu.");
             }
         }
     }
@@ -208,10 +209,17 @@ public class TaskApp {
 
                 try {
                     index = scan.nextInt();
+                    scan.nextLine();
+                    if(index < 0 || index >= list.size()){
+                        throw new IndexOutOfBoundsException("Your input was invalid, must be an integer from 0-" + (list.size() - 1) + ".  Please try again.");
+                    }
                     break;
                 } catch (IllegalArgumentException e) {
                     System.out.println("Your input was invalid, must be an integer from 0-" + (list.size() - 1) + ".  Please try again.");
-                } catch (Exception e2) {
+                } catch (InputMismatchException e2) {
+                    System.out.println("Your input was invalid, must be from 0-" + (list.size() - 1) + ". Please try again.");
+                    scan.nextLine();
+                } catch (Exception e3) {
                     System.out.println("Your input was invalid, must be from 0-" + (list.size() - 1) + ". Please try again.");
                 }
             }
@@ -284,11 +292,13 @@ public class TaskApp {
                 try {
                     int index = scan.nextInt();
                     list.removeListItem(index);
-                } catch (IllegalArgumentException e1) {
+                    break;
+                } catch (IndexOutOfBoundsException e) {
                     System.out.println("Your input was invalid, must be an integer from 0-" + (list.size() - 1) + ". Please try again.");
-                    continue;
+                } catch (Exception e2) {
+                    System.out.println("Your input was invalid, must be an integer from 0-" + (list.size() - 1) + ". Please try again.");
+                    scan.nextLine();
                 }
-                break;
             }
 
         } else {
@@ -318,7 +328,10 @@ public class TaskApp {
             } catch (IndexOutOfBoundsException e) {
                 System.out.println("Your input was invalid, must be an integer from 0-" + (list.size() - 1) + ". Please try again.");
                 System.out.println("");
-            } catch (Exception e2) {
+            } catch (InputMismatchException e2) {
+                System.out.println("Your input was invalid, must be an integer. Please try again.");
+                System.out.println("");
+            } catch (Exception e3) {
                 System.out.println("Your input was invalid, item is already complete. Please try again.");
                 System.out.println("");
             }
@@ -350,7 +363,10 @@ public class TaskApp {
             } catch (IndexOutOfBoundsException e) {
                 System.out.println("Your input was invalid, must be an integer from 0-" + (list.size() - 1) + ". Please try again.");
                 System.out.println("");
-            } catch (Exception e2) {
+            } catch (InputMismatchException e2) {
+                System.out.println("Your input was invalid, must be an integer. Please try again.");
+                System.out.println("");
+            } catch (Exception e3) {
                 System.out.println("Your input was invalid, item is incomplete. Please try again.");
                 System.out.println("");
             }
