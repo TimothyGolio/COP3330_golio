@@ -2,6 +2,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MainApp {
+    // Creates app selection menu.
     public static void main(String[] args) {
         int appMenuResponse = 0;
         while(appMenuResponse != 3) {
@@ -16,6 +17,7 @@ public class MainApp {
         }
     }
 
+    // Manages the user input from the app selection menu.
     private static int manageAppMenu() {
         printAppMenu();
         Scanner scan = new Scanner(System.in);
@@ -29,7 +31,6 @@ public class MainApp {
                 System.out.println("Your input was invalid, must be from 1-3. Please try again.");
                 return -1;
             }
-
         } catch (IllegalArgumentException e) {
             System.out.println("Your input was invalid, must be an integer from 1-3. Please try again.");
             return -1;

@@ -28,6 +28,14 @@ public class TaskItem {
         return title;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
     public void setTitle(String title) {
 
         if(titleIsValid(title) == true) {
@@ -38,26 +46,8 @@ public class TaskItem {
 
     }
 
-    private boolean titleIsValid(String title) {
-        int x = title.length();
-
-        if(x >= 1){
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Date getDate() {
-        return date;
     }
 
     public void setDate(Date date) {
@@ -65,6 +55,16 @@ public class TaskItem {
             this.date = date;
         } catch (IllegalArgumentException e) {
             System.out.println("Your date was invalid, must be in format MMMM-YY-DD. Please try again.");
+        }
+    }
+
+    private boolean titleIsValid(String title) {
+        int x = title.length();
+
+        if(x >= 1){
+            return true;
+        } else {
+            return false;
         }
     }
 

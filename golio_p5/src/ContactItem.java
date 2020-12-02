@@ -78,6 +78,7 @@ public class ContactItem {
     public static boolean phoneNumberIsValid(String phoneNumber) {
         String phoneNumberRegex = "(?:\\d{3}-){2}\\d{4}$";
         Pattern pattern = Pattern.compile(phoneNumberRegex);
+
         if(pattern.matcher(phoneNumber).matches() || phoneNumber.equals("")) {
             return true;
         } else {
@@ -89,6 +90,7 @@ public class ContactItem {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+ "[a-zA-Z0-9_+&*-]+)*@" +
                 "(?:[a-zA-Z0-9-]+\\.)+[a-z" + "A-Z]{1,7}$";
         Pattern pattern = Pattern.compile(emailRegex);
+
         if(pattern.matcher(email).matches() || email.equals("")) {
             return true;
         } else {

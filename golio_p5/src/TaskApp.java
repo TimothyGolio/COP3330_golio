@@ -5,8 +5,10 @@ import java.util.Scanner;
 import static java.sql.Date.valueOf;
 
 public class TaskApp {
+    // Creates main menu for Contact App.
     public static void mainTaskAppMenu() {
         int mainMenuResponse = 0;
+
         while(mainMenuResponse != 3) {
             mainMenuResponse = manageMainMenu();
         }
@@ -33,17 +35,9 @@ public class TaskApp {
                 return -1;
             }
 
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             System.out.println("Your input was invalid, must be an integer from 1-3. Please try again.");
             return -1;
-        }
-    }
-
-    // Creates the list menu.
-    private static void createListMenu(TaskList list) {
-        int listMenuResponse = 0;
-        while(listMenuResponse != 8){
-            listMenuResponse = manageListMenu(list);
         }
     }
 
@@ -55,10 +49,45 @@ public class TaskApp {
         createListMenu(list);
     }
 
+    // Loads a list from a text file inputted by the user.
+    private static void loadList() {
+        Scanner scan = new Scanner(System.in);
+        TaskList list = new TaskList();
+
+        while(true) {
+            System.out.println("Enter the file name to load: ");
+            try {
+                String filename = scan.nextLine();
+
+                if(filename.equalsIgnoreCase("quit")){
+                    break;
+                }
+
+                list.loadList(filename, false);
+                System.out.println("task list has been loaded");
+                createListMenu(list);
+                break;
+            } catch (FileNotFoundException e) {
+                System.out.println("There was a problem loading your file. Please try again or type \"Quit\" to return to the main menu.");
+            } catch (Exception e2) {
+                System.out.println("There was a problem. Please try again or type \"Quit\" to return to the main menu.");
+            }
+        }
+    }
+
+    // Creates the list menu.
+    private static void createListMenu(TaskList list) {
+        int listMenuResponse = 0;
+
+        while(listMenuResponse != 8){
+            listMenuResponse = manageListMenu(list);
+        }
+    }
+
     // Manages the user input from the list menu.
     private static int manageListMenu(TaskList list) {
         printListMenu();
-        int mainMenuResponse = 0;
+        int mainMenuResponse;
         Scanner scan = new Scanner(System.in);
 
         try {
@@ -67,7 +96,7 @@ public class TaskApp {
             System.out.println("Your input was invalid, must be an integer from 1-8. Please try again.");
             return -1;
         } catch (Exception e2) {
-            System.out.println("Your input was invalid, must be an integer from 1-8. Please try again.");
+            System.out.println("Your input was invalid, must be from 1-8. Please try again.");
             return -1;
         }
 
@@ -106,13 +135,17 @@ public class TaskApp {
         System.out.println("Current Tasks");
         System.out.println("-------------");
         System.out.println("");
+
         for(i = 0; i < size; i++) {
             TaskItem task = list.get(i);
+
             if(task.isCompleted()) {
                 System.out.print("*** ");
             }
+
             System.out.print(i + ") [" + list.getTaskDate(i) + "] " + list.getTaskTitle(i));
             String description = list.getTaskDescription(i);
+
             if(description.equals("")){
                 System.out.println("");
             }
@@ -125,7 +158,7 @@ public class TaskApp {
 
     // Takes user input and creates a task list with the input. Prompts the user again if there is an error in their input.
     private static void addItem(TaskList list) {
-        Date objectDate = new Date();
+        Date objectDate;
         String title;
         Scanner scan = new Scanner(System.in);
 
@@ -151,43 +184,42 @@ public class TaskApp {
                 System.out.print("Task due date (YYYY-MM-DD): ");
                 String date = scan.nextLine();
                 objectDate = valueOf(date);
-            } catch(IllegalArgumentException e) {
+            } catch(Exception e) {
                 System.out.println("Your input was invalid, must be in format YYYY-MM-DD. Please try again.");
                 continue;
             }
             break;
         }
 
-        TaskItem todo = new TaskItem(title, description, objectDate);
-        list.addListItem(todo);
+        TaskItem task = new TaskItem(title, description, objectDate);
+        list.addListItem(task);
     }
 
     // Takes user input for which task they want to edit.
     private static void editItem(TaskList list) {
-        viewList(list);
-        TaskItem task;
-        int index;
-
-        Scanner scan = new Scanner(System.in);
 
         if(list.size() > 0) {
+            viewList(list);
+            int index;
+            Scanner scan = new Scanner(System.in);
+
             while (true) {
                 System.out.print("Which task will you edit? ");
+
                 try {
                     index = scan.nextInt();
-                    task = list.get(index);
-                } catch (IllegalArgumentException e1) {
-                    System.out.println("Your input was invalid, must be an integer from 0 to the list size. Please try again.");
-                    continue;
-                } catch (IndexOutOfBoundsException e2) {
-                    System.out.println("Your input was invalid, must be an integer from 0 to the list size. Please try again.");
-                    continue;
+                    break;
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Your input was invalid, must be an integer from 0-" + (list.size() - 1) + ".  Please try again.");
+                } catch (Exception e2) {
+                    System.out.println("Your input was invalid, must be from 0-" + (list.size() - 1) + ". Please try again.");
                 }
-                break;
             }
+
             handleEditTitle(list, index);
             handleEditDescription(list, index);
             handleEditDate(list, index);
+
         } else {
             System.out.println("Your input was invalid, cannot edit an empty list. Please try again.");
         }
@@ -204,7 +236,7 @@ public class TaskApp {
             try {
                 Date objectDate = valueOf(newDate);
                 list.editTaskDate(index, objectDate);
-            } catch(IllegalArgumentException e) {
+            } catch(Exception e) {
                 System.out.println("Your input was invalid, must be in format YYYY-MM-DD. Please try again.");
                 continue;
             }
@@ -226,6 +258,7 @@ public class TaskApp {
     private static void handleEditTitle(TaskList list, int index) {
         Scanner scan = new Scanner(System.in);
         String newTitle;
+
         while(true) {
             System.out.print("Enter a new title for task " + index + ": ");
             newTitle = scan.nextLine();
@@ -245,19 +278,84 @@ public class TaskApp {
         if(list.size() > 0) {
             viewList(list);
             Scanner scan = new Scanner(System.in);
+
             while (true) {
                 System.out.print("Which task will you remove? ");
                 try {
                     int index = scan.nextInt();
                     list.removeListItem(index);
                 } catch (IllegalArgumentException e1) {
-                    System.out.println("Your input was invalid, must be integer between 0 and the size of the list - 1. Please try again.");
+                    System.out.println("Your input was invalid, must be an integer from 0-" + (list.size() - 1) + ". Please try again.");
                     continue;
                 }
                 break;
             }
+
         } else {
             System.out.println("Your input was invalid, cannot remove from an empty list. Please try again.");
+        }
+    }
+
+    // Marks the inputted task as complete, if their exists any uncompleted tasks.
+    private static void markItemAsComplete(TaskList list) {
+        int numUncomplete = 0;
+
+        for(int i = 0; i < list.size(); i++) {
+            TaskItem task = list.get(i);
+            if(task.isCompleted() == false) {
+                numUncomplete++;
+            }
+        }
+
+        if(numUncomplete > 0) {
+            Scanner scan = new Scanner(System.in);
+
+            try {
+                viewUncompletedList(list);
+                System.out.print("Which task will you mark as completed? ");
+                int index = scan.nextInt();
+                list.setIndexCompleted(index, true);
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Your input was invalid, must be an integer from 0-" + (list.size() - 1) + ". Please try again.");
+                System.out.println("");
+            } catch (Exception e2) {
+                System.out.println("Your input was invalid, item is already complete. Please try again.");
+                System.out.println("");
+            }
+        } else {
+            System.out.println("Your input was invalid, cannot mark item as complete if there are no uncompleted tasks. Please try again.");
+        }
+    }
+
+    // Unmarks the inputted task as complete, if their exists any completed tasks.
+    private static void unmarkItemAsComplete(TaskList list) {
+
+        int numComplete = 0;
+
+        for(int i = 0; i < list.size(); i++) {
+            TaskItem task = list.get(i);
+            if(task.isCompleted() == true) {
+                numComplete++;
+            }
+        }
+
+        if(numComplete > 0) {
+            Scanner scan = new Scanner(System.in);
+            viewCompletedList(list);
+            try {
+                System.out.print("Which task will you unmark as completed? ");
+                int index = scan.nextInt();
+                System.out.println("");
+                list.setIndexCompleted(index, false);
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Your input was invalid, must be an integer from 0-" + (list.size() - 1) + ". Please try again.");
+                System.out.println("");
+            } catch (Exception e2) {
+                System.out.println("Your input was invalid, item is incomplete. Please try again.");
+                System.out.println("");
+            }
+        } else {
+            System.out.println("Your input was invalid, cannot unmark item as complete if there are no completed tasks. Please try again.");
         }
     }
 
@@ -267,6 +365,7 @@ public class TaskApp {
         System.out.println("Completed Tasks");
         System.out.println("-------------");
         System.out.println("");
+
         for(i = 0; i < size; i++) {
             TaskItem task = list.get(i);
             if(task.isCompleted()) {
@@ -282,43 +381,20 @@ public class TaskApp {
         }
     }
 
-    // Marks the inputted task as complete.
-    private static void markItemAsComplete(TaskList list) {
-        Scanner scan = new Scanner(System.in);
-
-        while(true) {
-
-            try {
-                viewUncompletedList(list);
-                System.out.print("Which task will you mark as completed? ");
-                int index = scan.nextInt();
-                list.setIndexCompleted(index, true);
-                break;
-            } catch(IndexOutOfBoundsException e1) {
-                System.out.println("Your input was invalid, value must be from 0 to the size of the list - 1. Please try again.");
-                System.out.println("");
-                break;
-            } catch(IllegalArgumentException e2) {
-                System.out.println("Your input was invalid, item is already complete. Please try again.");
-                System.out.println("");
-                break;
-            }
-
-        }
-
-    }
-
     // Prints out the list of tasks that are not completed.
     private static void viewUncompletedList(TaskList list) {
         int i, size = list.size();
         System.out.println("Uncompleted Tasks");
         System.out.println("-------------");
         System.out.println("");
+
         for(i = 0; i < size; i++) {
             TaskItem task = list.get(i);
+
             if(!task.isCompleted()) {
                 System.out.print(i + ") [" + list.getTaskDate(i) + "] " + list.getTaskTitle(i));
                 String description = list.getTaskDescription(i);
+
                 if(description.equals("")){
                     System.out.println("");
                 }
@@ -330,74 +406,23 @@ public class TaskApp {
         System.out.println("");
     }
 
-    // Unmarks the inputted task as complete.
-    private static void unmarkItemAsComplete(TaskList list) {
-        Scanner scan = new Scanner(System.in);
-        viewCompletedList(list);
-        while(true) {
-            try {
-                System.out.print("Which task will you unmark as completed? ");
-                int index = scan.nextInt();
-                System.out.println("");
-                list.setIndexCompleted(index, false);
-
-                break;
-            } catch(IndexOutOfBoundsException e1) {
-                System.out.println("Your input was invalid, value must be from 0 to the size of the list - 1. Please try again.");
-                System.out.println("");
-                break;
-            }catch(Exception e2) {
-                System.out.println("Your input was invalid, item is incomplete. Please try again.");
-                System.out.println("");
-                break;
-            }
-        }
-    }
-
     // Saves the current list to a text file inputted by the user.
     private static void saveCurrentList(TaskList list) {
         Scanner scan = new Scanner(System.in);
 
         while(true) {
             System.out.print("Enter the file name to save as: ");
+
             try {
                 String filename = scan.nextLine();
                 list.saveList(filename);
                 System.out.println("task list has been saved");
                 break;
 
-            } catch(IOException e2) {
+            } catch(IOException e) {
+                System.out.println("Your input was invalid, must be valid file name. Please try again.");
+            } catch(Exception e2) {
                 System.out.println("Your input was invalid. Please try again.");
-                continue;
-            } catch(Exception e3) {
-                System.out.println("Your input was invalid. Please try again.");
-                continue;
-            }
-        }
-    }
-
-    // Loads a list from a text file inputted by the user.
-    private static void loadList() {
-        Scanner scan = new Scanner(System.in);
-        TaskList list = new TaskList();
-
-        while(true) {
-            System.out.println("Enter the file name to load: ");
-            try {
-                String filename = scan.nextLine();
-                if(filename.equalsIgnoreCase("quit")){
-                    break;
-                }
-                list.loadList(filename, false);
-                System.out.println("task list has been loaded");
-                createListMenu(list);
-                break;
-            } catch (FileNotFoundException e) {
-                System.out.println("There was a problem loading your file. Please try again or type \"Quit\" to return to the main menu.");
-                continue;
-            } catch (Exception e) {
-                System.out.println("There was a problem loading your file. Please try again or type \"Quit\" to return to the main menu.");
-                continue;
             }
         }
     }

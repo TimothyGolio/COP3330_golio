@@ -109,18 +109,12 @@ public class ContactList {
             ContactItem contact = list.get(i);
             writer.write(contact.toString());
         }
+
         writer.close();
     }
 
     public void loadList(String filename, boolean delete) throws FileNotFoundException {
-
-        int size = list.size();
-
-        for(int i = 0; i < size; i++){
-            list.remove(i);
-        }
-
-
+        list.clear();
         File openedFile = new File(filename);
         Scanner read = new Scanner(openedFile);
 

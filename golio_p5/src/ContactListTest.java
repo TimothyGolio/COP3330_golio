@@ -198,7 +198,7 @@ class ContactListTest {
         list.addListItem(contact);
 
         try {
-            list.saveList("example.txt");
+            list.saveList("example2.txt");
         } catch (IOException e) {
         }
 
@@ -207,7 +207,7 @@ class ContactListTest {
         assertThrows(IndexOutOfBoundsException.class, () -> list.getContactFirstName(0));
 
         try {
-            list.loadList("example.txt", true);
+            list.loadList("example2.txt", true);
         } catch (FileNotFoundException e) {
         }
 

@@ -11,7 +11,6 @@ import static java.sql.Date.valueOf;
 public class TaskList {
     private ArrayList<TaskItem> list = new ArrayList<TaskItem>();
 
-
     public void addListItem(TaskItem task) {
         list.add(task);
     }
@@ -44,19 +43,25 @@ public class TaskList {
     }
 
     public void setIndexCompleted(int index, boolean complete) {
-        if(index > (list.size() - 1) || index < 0){
+        if(index > (list.size() - 1) || index < 0) {
             throw new IndexOutOfBoundsException("Your input was invalid, must be integer between 0 and the size of the list - 1. Please try again.");
         }
+
         TaskItem task = get(index);
-        if(task.isCompleted() == true){
-            if(complete == true){
+
+        if(task.isCompleted() == true) {
+
+            if(complete == true) {
                 throw new IllegalArgumentException("Your input was invalid, the chosen item is already complete. Please try again.");
             }
+
             task.setCompleted(false);
         } else {
-            if(complete == false){
+
+            if(complete == false) {
                 throw new IllegalArgumentException("Your input was invalid, the chosen item is already not complete. Please try again.");
             }
+
             task.setCompleted(true);
         }
     }
@@ -86,36 +91,32 @@ public class TaskList {
 
         TaskItem task = list.get(index);
         task.setDate(newDate);
-
     }
 
     public void loadList(String filename, boolean delete) throws FileNotFoundException {
-
-        int size = list.size();
-
-        for(int i = 0; i < size; i++){
-            list.remove(i);
-        }
-
-
+        list.clear();
         File openedFile = new File(filename);
         Scanner read = new Scanner(openedFile);
 
         while(read.hasNextLine()) {
             boolean complete = false;
             String isComplete = read.nextLine();
+
             if(isComplete.equalsIgnoreCase("***")) {
                 complete = true;
             } else {
                 complete = false;
             }
+
             String title = read.nextLine();
             String description = read.nextLine();
             String date = read.nextLine();
             Date dateObject = valueOf(date);
+
             if(description.equals("blank")){
                 description = "";
             }
+
             TaskItem task = new TaskItem(title, description, dateObject);
             task.setCompleted(complete);
             list.add(task);
@@ -143,16 +144,20 @@ public class TaskList {
         for(int i = 0; i < size; i++) {
             TaskItem task = list.get(i);
             String description = task.getDescription();
+
             if(description.equals("")) {
                 description = "blank";
             }
+
             Date date = task.getDate();
             String dateString = date.toString();
+
             if(task.isCompleted()){
                 writer.write("***\n");
             } else {
                 writer.write("*\n");
             }
+
             writer.write(task.getTitle() + "\n");
             writer.write(description + "\n");
             writer.write(dateString + "\n");
